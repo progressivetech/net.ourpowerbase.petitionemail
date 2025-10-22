@@ -354,8 +354,8 @@ function petitionemail_civicrm_validateForm($formName, &$fields, &$files, &$form
       $i = 1;
       $using_dynamic_method = FALSE;
       while($i <= PETITIONEMAIL_ALLOWED_GROUP_FIELD_COMBINATIONS_COUNT) {
-        $matching_group_id = CRM_Utils_Array::value('matching_group_id' . $i, $fields);
-        $matching_field = CRM_Utils_Array::value('matching_field' . $i, $fields);
+        $matching_group_id = $fields['matching_group_id' . $i] ?? NULL;
+        $matching_field = $fields['matching_field' . $i] ?? NULL;
 
         if(!empty($matching_group_id) && empty($matching_field)) {
           $msg = ts("If you select a matching target group you must select
@@ -377,7 +377,7 @@ function petitionemail_civicrm_validateForm($formName, &$fields, &$files, &$form
 
       // If additional email targets have been provided, make sure they are
       // all syntactically correct.
-      $recipients = CRM_Utils_Array::value('recipients', $fields);
+      $recipients = $fields['recipients'] ?? NULL;
       if(!empty($recipients)) {
         $recipient_array = explode("\n", $recipients);
         while(list(,$line) = each($recipient_array)) {
@@ -438,7 +438,7 @@ function petitionemail_civicrm_postProcess( $formName, &$form ) {
   if ($formName != 'CRM_Campaign_Form_Petition') { 
     return; 
   }
-  $email_petition = CRM_Utils_Array::value('email_petition', $form->_submitValues);
+  $email_petition = $form->_submitValues['email_petition'] ?? NULL;
   $survey_id = $form->getVar('_surveyId');
   if($email_petition && $email_petition  == 1 ) {
     $lastmoddate = 0;
@@ -508,8 +508,8 @@ function petitionemail_civicrm_postProcess( $formName, &$form ) {
 
     $i = 1;
     while($i <= PETITIONEMAIL_ALLOWED_GROUP_FIELD_COMBINATIONS_COUNT) {
-      $matching_group_id = CRM_Utils_Array::value('matching_group_id' . $i, $form->_submitValues);
-      $matching_field = CRM_Utils_Array::value('matching_field' . $i, $form->_submitValues);
+      $matching_group_id = $form->_submitValues['matching_group_id' . $i] ?? NULL;
+      $matching_field = $form->_submitValues['matching_field' . $i] ?? NULL;
       if(!empty($matching_group_id) && !empty($matching_field)) {
         $sql = "INSERT INTO civicrm_petition_email_matching_field SET
           petition_id = %0, matching_field = %1, matching_group_id = %2";

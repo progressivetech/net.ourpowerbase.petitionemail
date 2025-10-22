@@ -89,8 +89,8 @@ class CRM_Petitionemail_Form_Report_PetitionEmail extends CRM_Report_Form {
             else {
               $select[] = "{$field['dbAlias']} as $alias";
             }
-            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = CRM_Utils_Array::value('title', $field);
-            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = CRM_Utils_Array::value('type', $field);
+            $this->_columnHeaders["{$tableName}_{$fieldName}"]['title'] = $field['title'] ?? NULL;
+            $this->_columnHeaders["{$tableName}_{$fieldName}"]['type'] = $field['type'] ?? NULL;
             $this->_selectAliases[] = $alias;
           }
         }
